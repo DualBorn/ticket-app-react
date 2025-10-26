@@ -1,37 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-
-interface TicketStats {
-  total: number;
-  open: number;
-  inProgress: number;
-  closed: number;
-}
+import { Card } from '../components/ui';
+import { Navigation } from '../components/layout';
+import { useTickets } from '../hooks/useTickets';
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
-  const [stats, setStats] = useState<TicketStats>({
-    total: 0,
-    open: 0,
-    inProgress: 0,
-    closed: 0
-  });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // Load ticket statistics from localStorage
-    const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
-    
-    const ticketStats: TicketStats = {
-      total: tickets.length,
-      open: tickets.filter((ticket: any) => ticket.status === 'open').length,
-      inProgress: tickets.filter((ticket: any) => ticket.status === 'in_progress').length,
-      closed: tickets.filter((ticket: any) => ticket.status === 'closed').length
-    };
-    
-    setStats(ticketStats);
-  }, []);
+  const { stats } = useTickets();
 
   const handleLogout = () => {
     logout();
@@ -40,80 +17,13 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center min-w-0 flex-1">
-              <Link to="/dashboard" className="text-xl sm:text-2xl font-bold text-primary-600 truncate">
-                TicketApp
-              </Link>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-4">
-              <span className="text-gray-700">Welcome, {user?.name}</span>
-              <Link
-                to="/tickets"
-                className="text-gray-600 hover:text-primary-600 transition-colors duration-200"
-              >
-                Manage Tickets
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="btn-secondary"
-              >
-                Logout
-              </button>
-            </div>
-
-            {/* Mobile Navigation */}
-            <div className="md:hidden flex items-center space-x-2">
-              {/* Greeting */}
-              <span className="text-gray-700 text-sm truncate max-w-40">Welcome, {user?.name}</span>
-              
-              {/* Hamburger Menu Button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-600 hover:text-primary-600 focus:outline-none focus:text-primary-600 flex-shrink-0"
-                aria-label="Toggle mobile menu"
-              >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  {isMobileMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden">
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 border-t border-gray-200">
-                <Link
-                  to="/tickets"
-                  className="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-100 rounded-md transition-colors duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Manage Tickets
-                </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-100 rounded-md transition-colors duration-200"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navigation
+        user={user}
+        onLogout={handleLogout}
+        isMobileMenuOpen={isMobileMenuOpen}
+        onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        currentPage="dashboard"
+      />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -128,7 +38,7 @@ const Dashboard: React.FC = () => {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Tickets */}
-          <div className="card hover:shadow-xl transition-shadow duration-300">
+          <Card hover>
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center" aria-hidden="true">
@@ -142,10 +52,10 @@ const Dashboard: React.FC = () => {
                 <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Open Tickets */}
-          <div className="card hover:shadow-xl transition-shadow duration-300">
+          <Card hover>
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center" aria-hidden="true">
@@ -159,10 +69,10 @@ const Dashboard: React.FC = () => {
                 <p className="text-2xl font-bold text-success-600">{stats.open}</p>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* In Progress Tickets */}
-          <div className="card hover:shadow-xl transition-shadow duration-300">
+          <Card hover>
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-warning-100 rounded-lg flex items-center justify-center" aria-hidden="true">
@@ -176,10 +86,10 @@ const Dashboard: React.FC = () => {
                 <p className="text-2xl font-bold text-warning-600">{stats.inProgress}</p>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Closed Tickets */}
-          <div className="card hover:shadow-xl transition-shadow duration-300">
+          <Card hover>
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center" aria-hidden="true">
@@ -193,13 +103,13 @@ const Dashboard: React.FC = () => {
                 <p className="text-2xl font-bold text-gray-600">{stats.closed}</p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Quick Actions Card */}
-          <div className="card">
+          <Card>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div className="space-y-4">
               <Link
@@ -232,10 +142,10 @@ const Dashboard: React.FC = () => {
                 </div>
               </Link>
             </div>
-          </div>
+          </Card>
 
           {/* Recent Activity Card */}
-          <div className="card">
+          <Card>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
             <div className="space-y-4">
               {stats.total === 0 ? (
@@ -260,7 +170,7 @@ const Dashboard: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

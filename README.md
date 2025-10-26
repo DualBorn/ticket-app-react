@@ -1,6 +1,6 @@
 # TicketApp - React Implementation
 
-A modern, responsive ticket management web application built with React, TypeScript, and Tailwind CSS. This is the React implementation of a multi-framework ticket management system.
+A modern, responsive ticket management web application built with React, TypeScript, and Tailwind CSS. This implementation features a clean, DRY architecture with reusable components and comprehensive functionality.
 
 ## 🚀 Features
 
@@ -11,6 +11,53 @@ A modern, responsive ticket management web application built with React, TypeScr
 - **Responsive Design**: Optimized for mobile, tablet, and desktop devices
 - **Error Handling**: Comprehensive error handling with toast notifications and inline validation
 - **Accessibility**: Semantic HTML, focus states, and proper color contrast
+
+## 🏗️ Architecture
+
+This project follows a clean, modular architecture with clear separation of concerns:
+
+### **Component Structure**
+```
+src/
+├── components/
+│   ├── ui/                    # Reusable UI components
+│   │   ├── Button.tsx         # Consistent button styling
+│   │   ├── Input.tsx          # Form input with validation
+│   │   ├── Textarea.tsx       # Textarea with error handling
+│   │   ├── Select.tsx         # Dropdown select component
+│   │   ├── Card.tsx           # Card container component
+│   │   ├── Modal.tsx          # Modal dialog component
+│   │   └── index.ts           # Component exports
+│   └── layout/                # Layout components
+│       ├── Navigation.tsx     # Unified navigation
+│       ├── Footer.tsx         # Reusable footer
+│       ├── DecorativeElements.tsx # SVG backgrounds & circles
+│       └── index.ts           # Layout exports
+├── hooks/                     # Custom React hooks
+│   ├── useTickets.ts         # Ticket state management
+│   └── useFormValidation.ts   # Form validation logic
+├── utils/                     # Utility functions
+│   ├── validation.ts          # Form validation utilities
+│   └── ticketUtils.ts         # Ticket data operations
+├── types/                     # TypeScript interfaces
+│   └── index.ts               # Type definitions
+├── constants/                 # Application constants
+│   └── index.ts               # Configuration & constants
+└── pages/                     # Main application pages
+    ├── LandingPage.tsx
+    ├── LoginPage.tsx
+    ├── SignupPage.tsx
+    ├── Dashboard.tsx
+    └── TicketManagement.tsx
+```
+
+### **Key Design Principles**
+
+- **DRY (Don't Repeat Yourself)**: All repeated code extracted to reusable components
+- **Single Responsibility**: Each component has one clear purpose
+- **Type Safety**: Comprehensive TypeScript interfaces and type checking
+- **Consistent Styling**: Unified design system with Tailwind CSS
+- **Maintainable Code**: Clear structure and separation of concerns
 
 ## 🛠️ Technologies Used
 
@@ -78,25 +125,6 @@ The application includes demo accounts for testing:
 ### Sign Up
 You can also create a new account using the signup form with any email and password (minimum 6 characters).
 
-## 📱 Application Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   └── ProtectedRoute.tsx
-├── context/            # React context providers
-│   └── AuthContext.tsx
-├── pages/              # Main application pages
-│   ├── LandingPage.tsx
-│   ├── LoginPage.tsx
-│   ├── SignupPage.tsx
-│   ├── Dashboard.tsx
-│   └── TicketManagement.tsx
-├── App.tsx             # Main application component
-├── main.tsx           # Application entry point
-└── index.css          # Global styles and Tailwind imports
-```
-
 ## 🎨 Design System
 
 ### Layout Requirements
@@ -106,15 +134,15 @@ src/
 - **Cards**: Rounded corners with shadows for content sections
 
 ### Color Scheme
-- **Primary**: Blue tones (#0ea5e9)
-- **Success**: Green tones (#22c55e) - for "open" status
-- **Warning**: Amber tones (#f59e0b) - for "in_progress" status
-- **Danger**: Red tones (#ef4444) - for errors and high priority
+- **Primary**: Blue tones (#0284c7)
+- **Success**: Green tones (#16a34a) - for "open" status
+- **Warning**: Amber tones (#d97706) - for "in_progress" status
+- **Danger**: Red tones (#dc2626) - for errors and high priority
 - **Gray**: Neutral tones for "closed" status
 
 ### Status Colors
-- **Open**: Green (`#22c55e`)
-- **In Progress**: Amber (`#f59e0b`)
+- **Open**: Green (`#16a34a`)
+- **In Progress**: Amber (`#d97706`)
 - **Closed**: Gray (`#6b7280`)
 
 ## 🔧 Key Features Implementation
@@ -229,12 +257,16 @@ The application uses React Context for global state management:
 - **Local State**: Component-level state for forms and UI interactions
 - **LocalStorage**: Persistent storage for tickets and user sessions
 
-## 📝 Known Issues
+## 📝 Recent Updates
 
-- Data persistence is limited to localStorage (no backend integration)
-- No real-time collaboration features
-- Limited to single-user sessions
-- No file upload capabilities for ticket attachments
+### Code Refactoring (Latest)
+- **DRY Architecture**: Extracted reusable UI components (Button, Input, Card, Modal, etc.)
+- **Layout Components**: Created shared Navigation, Footer, and decorative elements
+- **Custom Hooks**: Implemented useTickets and useFormValidation for state management
+- **Utility Functions**: Centralized validation logic and ticket operations
+- **Type Safety**: Comprehensive TypeScript interfaces and type-only imports
+- **Constants**: Centralized configuration and application constants
+- **Clean Code**: Removed code duplication and improved maintainability
 
 ## 🤝 Contributing
 
@@ -259,4 +291,4 @@ After completing the React implementation, the next steps would be:
 
 ---
 
-**Note**: This is a demonstration project for educational purposes. In a production environment, you would implement proper backend integration, database persistence, and additional security measures.
+**Note**: This is a demonstration project for educational purposes. In a production environment, proper backend integration, database persistence, and additional security measures.

@@ -1,12 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { toast } from 'react-toastify';
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-}
+import type { User } from '../types';
+import { STORAGE_KEYS, DEMO_CREDENTIALS } from '../constants';
 
 interface AuthContextType {
   user: User | null;
@@ -36,13 +32,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     // Check for existing session on app load
-    const sessionToken = localStorage.getItem('ticketapp_session');
+    const sessionToken = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (sessionToken) {
       try {
         const userData = JSON.parse(sessionToken);
         setUser(userData);
       } catch (error) {
-        localStorage.removeItem('ticketapp_session');
+        localStorage.removeItem(STORAGE_KEYS.SESSION);
       }
     }
     setIsLoading(false);
@@ -55,26 +51,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     // Mock authentication - in real app, this would be an API call
-    if (email === 'admin@ticketapp.com' && password === 'password123') {
+    if (email === DEMO_CREDENTIALS.ADMIN.email && password === DEMO_CREDENTIALS.ADMIN.password) {
       const userData: User = {
         id: '1',
         email: email,
         name: 'Admin User'
       };
       
-      localStorage.setItem('ticketapp_session', JSON.stringify(userData));
+      localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(userData));
       setUser(userData);
       toast.success('Login successful!');
       setIsLoading(false);
       return true;
-    } else if (email === 'user@ticketapp.com' && password === 'password123') {
+    } else if (email === DEMO_CREDENTIALS.USER.email && password === DEMO_CREDENTIALS.USER.password) {
       const userData: User = {
         id: '2',
         email: email,
         name: 'Test User'
       };
       
-      localStorage.setItem('ticketapp_session', JSON.stringify(userData));
+      localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(userData));
       setUser(userData);
       toast.success('Login successful!');
       setIsLoading(false);
@@ -105,7 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       name: name
     };
     
-    localStorage.setItem('ticketapp_session', JSON.stringify(userData));
+    localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(userData));
     setUser(userData);
     toast.success('Account created successfully!');
     setIsLoading(false);
@@ -113,7 +109,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('ticketapp_session');
+    localStorage.removeItem(STORAGE_KEYS.SESSION);
     setUser(null);
     toast.success('Logged out successfully');
   };

@@ -2,6 +2,8 @@
 
 A modern, responsive ticket management web application built with React, TypeScript, and Tailwind CSS. This implementation features a clean, DRY architecture with reusable components and comprehensive functionality.
 
+🌐 **Live Demo:** [https://ticket-management-app-react.netlify.app/](https://ticket-management-app-react.netlify.app/)
+
 ## 🚀 Features
 
 - **Modern Landing Page**: Beautiful hero section with wavy SVG background and decorative elements

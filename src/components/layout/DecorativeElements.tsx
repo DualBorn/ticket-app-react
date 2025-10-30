@@ -7,10 +7,10 @@ interface DecorativeCirclesProps {
 export const DecorativeCircles: React.FC<DecorativeCirclesProps> = ({ className = '' }) => {
   return (
     <div className={className}>
-      {/* Decorative Circles */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-primary-200 rounded-full opacity-60 float" aria-hidden="true"></div>
-      <div className="absolute top-40 right-20 w-16 h-16 bg-warning-200 rounded-full opacity-50 float" style={{ animationDelay: '1s' }} aria-hidden="true"></div>
-      <div className="absolute bottom-40 left-1/4 w-12 h-12 bg-success-200 rounded-full opacity-40 float" style={{ animationDelay: '2s' }} aria-hidden="true"></div>
+      {/* Decorative Circles - Hidden on mobile, visible on larger screens */}
+      <div className="hidden sm:block absolute top-20 left-10 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-primary-200 rounded-full opacity-60 float" aria-hidden="true"></div>
+      <div className="hidden sm:block absolute top-40 right-20 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-warning-200 rounded-full opacity-50 float" style={{ animationDelay: '1s' }} aria-hidden="true"></div>
+      <div className="hidden md:block absolute bottom-40 left-1/4 w-8 h-8 md:w-12 md:h-12 bg-success-200 rounded-full opacity-40 float" style={{ animationDelay: '2s' }} aria-hidden="true"></div>
     </div>
   );
 };
